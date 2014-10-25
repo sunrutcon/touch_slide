@@ -83,6 +83,7 @@ void setup()
   
   // 0x5C is the MPR121 I2C address on the Bare Touch Board
   if(!MPR121.begin(0x5A)){ 
+    /*
     Serial.println("error setting up MPR121");  
     switch(MPR121.getError()){
       case NO_ERROR:
@@ -107,6 +108,7 @@ void setup()
         Serial.println("unknown error");
         break;      
     }
+    */
     while(1);
   }
   
@@ -127,8 +129,6 @@ void loop()
       static unsigned long lastPeriod = 0;
       if(MPR121.isNewTouch(i)){
         slider.touchPin[i].touch();
-        Serial.print("jump period:\t");
-        Serial.println(millis()-lastRelease);
         lastTouch=millis();
       } else if(MPR121.isNewRelease(i)){
         curr = i;
@@ -144,6 +144,7 @@ void loop()
               vuPrint(number);
             }
           }
+          Serial.println(number);
         }
         else if((last - curr == -1)&&number<MAX_VALUE){
           number++;
@@ -155,9 +156,8 @@ void loop()
                 vuPrint(number);
               }
             }
+          Serial.println(number);
         }
-        Serial.print("release period:\t");
-        Serial.println(millis()-lastTime);
         
         lastRelease=lastTime=millis();
         last = curr;
@@ -238,9 +238,6 @@ void vuPrintLevel(int vuValue){
 
 /* startup indicator */
 void indicateStart(){
-  Serial.println("Touch Slider 12: Started...");
-  Serial.print("Touch Slider 12: time ");
-  Serial.println(millis());
   for(int i=0; i<3; i++){
     vuPrint(0);
     delay(200);
