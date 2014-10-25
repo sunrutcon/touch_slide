@@ -144,7 +144,7 @@ void loop()
               vuPrint(number);
             }
           }
-          Serial.println(number);
+          Serial.println(map(number, 0,24,0,100));
         }
         else if((last - curr == -1)&&number<MAX_VALUE){
           number++;
@@ -156,7 +156,7 @@ void loop()
                 vuPrint(number);
               }
             }
-          Serial.println(number);
+          Serial.println(map(number, 0,24,0,100));
         }
         
         lastRelease=lastTime=millis();
@@ -168,8 +168,9 @@ void loop()
     if(slider.touchPin[i].isTouched && (millis()-slider.touchPin[i].lastTouchTime>1000) && (millis()-slider.touchPin[i].lastEventTime>1000)){
       slider.touchPin[i].lastEventTime=millis();
       changeState();
-      number=(i+1)<<1;
+      //number=(i+1)<<1;
       vuPrint(number);
+      Serial.println(map(number, 0,24,0,100));
      }
      else if(slider.touchPin[i].isTouched && (millis()-slider.touchPin[i].lastTouchTime>5000)){
        pseudoReset();
